@@ -1,4 +1,4 @@
-test();
+
 
 async function test() {
     const http = new HttpClient();

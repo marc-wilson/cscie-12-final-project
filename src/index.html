@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/index.css"/>
 </head>
 <body>
-<h1>Test</h1>
+<header>
+    <nav>
+        <h3>Home</h3>
+        <div id="linksContainer">
+            <h5><a href="index.html">Home</a></h5>
+            <div>|</div>
+            <h5><a href="views/search.html">Search</a></h5>
+            <div>|</div>
+            <h5><a href="views/explore.html">Explore and Download</a></h5>
+        </div>
+    </nav>
+</header>
+<main>
+    <h1>Welcome to the MLB Stats Explorer!</h1>
+    <hr />
+    <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
+    <div id="cardsContainer">
+        <div class="card">
+            <h3>Search</h3>
+        </div>
+        <div class="card">
+            <h3>Explore</h3>
+        </div>
+    </div>
+</main>
+<footer></footer>
 <script src="scripts/utils/http-client.js"></script>
 <script src="scripts/index.js"></script>
 </body>
