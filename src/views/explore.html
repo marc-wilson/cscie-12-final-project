@@ -22,7 +22,35 @@
     <h1>Explore & Download</h1>
     <hr/>
     <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
+    <div id="filters">
+        <div>
+            <label for="teams">Teams</label>
+            <input type="radio" checked id="teams" value="teams" name="filterType" />
+            <label for="players">Players</label>
+            <input type="radio" id="players" name="filterType" value="players" />
+        </div>
+        <div id="teamFilters">
+            <div class="input-container">
+                <label for="yearID">Year</label>
+                <select id="yearID">
+                    <option>Select...</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="teamID">Team</label>
+                <select id="teamID"></select>
+            </div>
+        </div>
+        <div id="datatable">
+            <table>
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 </main>
 <footer></footer>
+<script src="../scripts/utils/http-client.js"></script>
+<script src="../scripts/explore.js"></script>
 </body>
 </html>

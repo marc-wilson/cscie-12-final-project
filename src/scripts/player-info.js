@@ -17,7 +17,12 @@ class Player {
         if (this.batting) {
             const atbats = this.getTotalAtBats();
             const hits = this.batting.map(b => b.H).reduce( (acc, b) => acc + b);
-            return (hits /atbats).toFixed(3);
+            return (hits / atbats).toFixed(3);
+        }
+    }
+    getTotalHomeruns() {
+        if (this.batting) {
+            return this.batting.map(b => b.HR).reduce( (acc, b) => acc + b);
         }
     }
 }
@@ -31,6 +36,7 @@ class PlayerInfo {
         this.positionEl = document.getElementById('position');
         this.atbatsEl = document.getElementById('atbats');
         this.battingAverageEl = document.getElementById('battingAverage');
+        this.homerunsEl = document.getElementById('homeruns');
         const params = new URLSearchParams(window.location.search);
         this._httpClient = new HttpClient();
         this.playerID = params.get('playerID');
@@ -48,9 +54,69 @@ class PlayerInfo {
             this.positionEl.innerText = player.fielding ? player.fielding[player.fielding.length - 1].POS : 'N/A';
             this.atbatsEl.innerText = player.getTotalAtBats();
             this.battingAverageEl.innerText = player.getTotalBattingAverage();
+            this.homerunsEl.innerText = player.getTotalHomeruns();
             this.generateHomerunsChart(player.batting);
+            this.generateHittingBreakdownChart(player.batting);
         }
 
+    }
+    generateHittingBreakdownChart(batting) {
+        const data = [
+            { label: 'Hits', value: batting.map( b => b.H).reduce( (acc, hits) => acc + hits) },
+            { label: 'Strikeouts', value: batting.map( b => b.SO).reduce( (acc, so) => acc + so) },
+            { label: 'Walks', value: batting.map( b => b.BB).reduce( (acc, walks) => acc + walks) },
+            { label: 'Doubles', value: batting.map( b => b['2B']).reduce( (acc, doubles) => acc + doubles) },
+            { label: 'Triples', value: batting.map( b => b['3B']).reduce( (acc, triples) => acc + triples) },
+            { label: 'Homeruns', value: batting.map( b => b.HR).reduce( (acc, homeruns) => acc + homeruns) },
+        ];
+        console.log(data);
+        const height = 500;
+        const width = 500;
+        const colors = [
+            { label: 'Hits', color: '#FFD180' },
+            { label: 'Strikeouts', color: '#7986CB' },
+            { label: 'Walks', color: '#3F51B5' },
+            { label: 'Doubles', color: '#303F9F' },
+            { label: 'Triples', color: '#1A237E' },
+            { label: 'Homeruns', color: '#536DFE' },
+        ]
+        const svg = d3.select('#hittingBreakdownChart')
+            .attr('height', height)
+            .attr('width', width)
+            .attr('text-anchor', 'middle');
+        const pie = d3.pie()
+            .sort(null)
+            .value(d => d.value);
+        const arcs = pie(data);
+        const radius = Math.min(width, height) / 2 * 0.8;
+        const arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
+        const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 1);
+        const g = svg.append('g')
+            .attr('transform', `translate(${width / 2}, ${height / 2})`);
+        g.selectAll('path')
+            .data(arcs)
+            .enter().append('path')
+            .attr('fill', d => colors.find( c => c.label === d.data.label).color)
+            .attr('stroke', 'white')
+            .attr('d', arc)
+            .append('title')
+            .text(d => `${d.data.label}: ${d.data.value}`);
+        const text = g.selectAll('text')
+            .data(arcs)
+            .enter()
+            .append('text')
+            .attr('transform', d => `translate(${arcLabel.centroid(d)})`)
+            .attr('dy', '0.35em');
+        text.append('tspan')
+            .attr('x', 0)
+            .attr('y', '-0.7em')
+            .attr('font-weight', 'bold')
+            .text(d => d.data.label);
+        text.filter(d => (d.endAngle - d.startAngle) > 0.25).append('tspan')
+            .attr('x', 0)
+            .attr('y', '0.7em')
+            .attr('fill-opacity', 0.7)
+            .text(d => d.data.value);
     }
     generateHomerunsChart(batting) {
         const margin = {top: 50, right: 50, bottom: 50, left: 50};
@@ -62,7 +128,7 @@ class PlayerInfo {
             .scale(xScale);
         const yAxis = d3.axisLeft()
             .scale(yScale);
-        const svg = d3.select('#homeruns')
+        const svg = d3.select('#homerunsChart')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
@@ -95,7 +161,6 @@ class PlayerInfo {
             .attr('width', xScale.bandwidth())
             .attr('y', d => yScale(d.HR))
             .attr('height', d => height - yScale(d.HR));
-
     }
 }
 
