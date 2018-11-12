@@ -1,0 +1,17 @@
+#charts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+#charts .chart {
+    text-align: center;
+}
+#statsContainer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+#statsContainer .stat {
+    text-align: center;
+}

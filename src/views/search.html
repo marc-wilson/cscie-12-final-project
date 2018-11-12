@@ -4,21 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../styles/index.css"/>
+    <link rel="stylesheet" href="../styles/search.css"/>
 </head>
 <body>
-    <header>
-        <nav>
-            <h3>Search</h3>
-            <div id="linksContainer">
-                <h5><a href="../index.html">Home</a></h5>
-                <div>|</div>
-                <h5><a href="search.html">Search</a></h5>
-                <div>|</div>
-                <h5><a href="explore.html">Explore and Download</a></h5>
-            </div>
-        </nav>
-    </header>
-    <main></main>
-    <footer></footer>
+<header>
+    <nav>
+        <h3>Search</h3>
+        <div id="linksContainer">
+            <h5><a href="../index.html">Home</a></h5>
+            <div>|</div>
+            <h5><a href="search.html">Search</a></h5>
+            <div>|</div>
+            <h5><a href="explore.html">Explore and Download</a></h5>
+        </div>
+    </nav>
+</header>
+<main>
+    <h1>Search MLB Stats from 1871 - present</h1>
+    <hr/>
+    <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
+    <div id="searchContainer">
+        <input type="text" placeholder="Player Name" autofocus id="searchBox"/>
+    </div>
+    <div id="resultsContainer"></div>
+</main>
+<footer></footer>
+<script src="../scripts/utils/http-client.js"></script>
+<script src="../scripts/search.js"></script>
 </body>
 </html>

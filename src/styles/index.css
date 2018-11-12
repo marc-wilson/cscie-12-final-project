@@ -28,4 +28,5 @@ body main #cardsContainer .card {
     width: 200px;
     padding: 30px;
     border: 1px solid lightgray;
+    margin: 15px;
 }

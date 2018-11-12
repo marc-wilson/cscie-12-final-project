@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../styles/index.css"/>
+    <link rel="stylesheet" href="../styles/player-info.css" />
+</head>
+<body>
+<header>
+    <nav>
+        <h3>Player Info</h3>
+        <div id="linksContainer">
+            <h5><a href="../index.html">Home</a></h5>
+            <div>|</div>
+            <h5><a href="search.html">Search</a></h5>
+            <div>|</div>
+            <h5><a href="explore.html">Explore and Download</a></h5>
+        </div>
+    </nav>
+</header>
+<main>
+    <h1 id="playerName"></h1>
+    <hr/>
+    <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
+    <div id="statsContainer">
+        <div class="stat">
+            <h4>Debut</h4>
+            <h1 id="debut">N/A</h1>
+        </div>
+        <div class="stat">
+            <h4>Bats</h4>
+            <h1 id="bats">N/A</h1>
+        </div>
+        <div class="stat">
+            <h4>Throws</h4>
+            <h1 id="throws">N/A</h1>
+        </div>
+        <div class="stat">
+            <h4>Position</h4>
+            <h1 id="position">N/A</h1>
+        </div>
+        <div class="stat">
+            <h4>At Bats</h4>
+            <h1 id="atbats">N/A</h1>
+        </div>
+        <div class="stat">
+            <h4>Batting Average</h4>
+            <h1 id="battingAverage">N/A</h1>
+        </div>
+    </div>
+    <div id="charts">
+        <div class="chart">
+            <h3>Homeruns</h3>
+            <svg id="homeruns"></svg>
+        </div>
+    </div>
+
+</main>
+<footer></footer>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="../scripts/utils/http-client.js"></script>
+<script src="../scripts/player-info.js"></script>
+</body>
+</html>
