@@ -2,50 +2,30 @@ class Explore {
     constructor() {
         this._apiPrefix = `https://api.marcswilson.com/api/mlb/chadwick`;
         this._httpClient = new HttpClient();
-        this.filterType = 'teams';
-        this.teamsFilterTypeEl = document.getElementById('teams');
-        this.playersFilterTypeEl = document.getElementById('players');
-        this.yearFilterEl = document.getElementById('yearID');
-        this.teamFilterEl = document.getElementById('teamID');
+        this._collectionsListEl = document.getElementById('collections');
         this.init();
     }
-
     async init() {
-        this.bindEvents();
-        this.years = await this.getDistinctYears();
-        for (const year of this.years) {
-            const option = document.createElement('option');
-            option.value = year;
-            option.innerText = year;
-            this.yearFilterEl.appendChild(option);
-        }
+        const collections = await this._httpClient.get(`${this._apiPrefix}/collections`);
+        this.generateCollectionList(collections);
     }
-
-    async getDistinctYears() {
-        return await this._httpClient.get(`${this._apiPrefix}/years`);
-    }
-
-    async onYearIdChange(evt) {
-        const year = evt.currentTarget.value;
-        if (this.filterType === 'teams') {
-            const teams = await this._httpClient.get(`${this._apiPrefix}/years/${year}/teams`);
-            this.generateDataTable(teams);
-            this.teamFilterEl.innerHTML = '';
-            for (const team of teams) {
-                const option = document.createElement('option');
-                option.value = team.teamID;
-                option.innerText = team.name;
-                this.teamFilterEl.appendChild(option);
+    generateCollectionList(collections) {
+        if (collections) {
+            for (const collection of collections) {
+                const li = document.createElement('li');
+                li.innerText = collection.name;
+                li.onclick = this.collectionChanged.bind(this);
+                this._collectionsListEl.appendChild(li);
             }
         }
     }
-
-    bindEvents() {
-        this.teamsFilterTypeEl.onchange = this.onFilterTypeChange.bind(this);
-        this.playersFilterTypeEl.onchange = this.onFilterTypeChange.bind(this);
-        this.yearFilterEl.onchange = this.onYearIdChange.bind(this);
+    async collectionChanged(evt) {
+        const collectionName = evt.currentTarget.innerText;
+        if (collectionName) {
+            const data = await this._httpClient.get(`${this._apiPrefix}/collections/${collectionName}`);
+            this.generateDataTable(data);
+        }
     }
-
     generateDataTable(data) {
         const thead = document.querySelector('#datatable thead');
         const theadTr = document.createElement('tr');
@@ -70,13 +50,8 @@ class Explore {
             tbody.appendChild(tr);
         }
         console.log(columns);
-
     }
 
-    onFilterTypeChange(evt) {
-        console.log(evt.currentTarget.value);
-        this.filterType = evt.currentTarget.value;
-    }
 }
 
 document.body.onload = (evt) => {

@@ -1,0 +1,15 @@
+header, #bodyHeader {
+    width: 80%;
+    margin: auto;
+}
+#content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+#collections {
+    list-style-type: none;
+}
+#datatable table {
+    width: 100%;
+}

@@ -1,4 +1,7 @@
-
+body {
+    width: 80%;
+    margin: auto;
+}
 #searchContainer button {
     height: 40px;
 }
