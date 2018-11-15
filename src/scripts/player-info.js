@@ -6,6 +6,7 @@ class Player {
         this.throws = playerObj.throws;
         this.fielding = playerObj.fielding;
         this.batting = playerObj.batting;
+        this.pitching = playerObj.pitching;
     }
     getTotalAtBats() {
         if (this.batting) {
@@ -57,6 +58,8 @@ class PlayerInfo {
             this.homerunsEl.innerText = player.getTotalHomeruns();
             this.generateHomerunsChart(player.batting);
             this.generateHittingBreakdownChart(player.batting);
+            this.generateEraChart(player.pitching);
+            this.generatePitchingBreakdownChart(player.pitching);
         }
 
     }
@@ -161,6 +164,106 @@ class PlayerInfo {
             .attr('width', xScale.bandwidth())
             .attr('y', d => yScale(d.HR))
             .attr('height', d => height - yScale(d.HR));
+    }
+    generateEraChart(pitching) {
+        const margin = {top: 50, right: 50, bottom: 50, left: 50};
+        const height = 500 - margin.left - margin.right;
+        const width = 500 - margin.top - margin.bottom;
+        const data = pitching.map( p => ({ key: p.yearID, value: +p.ERA}));
+        const xScale = d3.scaleLinear()
+            .domain(d3.extent(data, (d) => d.key))
+            .range([0, width]);
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value)])
+            .range([height, 0]);
+        const line = d3.line()
+            .x( d => xScale(d.key))
+            .y( d => yScale(+d.value))
+            .curve(d3.curveMonotoneX);
+        const svg = d3.select('#eraChart')
+            .attr('height', height + margin.top + margin.bottom)
+            .attr('width', width + margin.left + margin.right)
+            .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        svg.append('g')
+            .attr('class', 'x-axis')
+            .attr('transform', `translate(0, ${height})`)
+            .call(d3.axisBottom().scale(xScale).tickFormat(d3.format('d')));
+        svg.append('g')
+            .attr('class', 'y-axis')
+            .call(d3.axisLeft(yScale));
+        svg.append('path')
+            .datum(data)
+            .attr('class', 'line')
+            .attr('d', line);
+        svg.selectAll('.dot')
+            .data(data)
+            .enter()
+            .append('circle')
+            .attr('class', 'dot')
+            .attr('cx', d => xScale(d.key))
+            .attr('cy', d => yScale(d.value))
+            .attr('r', 5);
+
+    }
+    generatePitchingBreakdownChart(batting) {
+        const data = [
+            { label: 'Hits', value: batting.map( b => b.H).reduce( (acc, hits) => acc + hits) },
+            { label: 'Strikeouts', value: batting.map( b => b.SO).reduce( (acc, so) => acc + so) },
+            { label: 'Walks', value: batting.map( b => b.BB).reduce( (acc, walks) => acc + walks) },
+            { label: 'Doubles', value: batting.map( b => b['2B']).reduce( (acc, doubles) => acc + doubles) },
+            { label: 'Triples', value: batting.map( b => b['3B']).reduce( (acc, triples) => acc + triples) },
+            { label: 'Homeruns', value: batting.map( b => b.HR).reduce( (acc, homeruns) => acc + homeruns) },
+        ];
+        console.log(data);
+        const height = 500;
+        const width = 500;
+        const colors = [
+            { label: 'Hits', color: '#FFD180' },
+            { label: 'Strikeouts', color: '#7986CB' },
+            { label: 'Walks', color: '#3F51B5' },
+            { label: 'Doubles', color: '#303F9F' },
+            { label: 'Triples', color: '#1A237E' },
+            { label: 'Homeruns', color: '#536DFE' },
+        ]
+        const svg = d3.select('#pitchingBreakdownChart')
+            .attr('height', height)
+            .attr('width', width)
+            .attr('text-anchor', 'middle');
+        const pie = d3.pie()
+            .sort(null)
+            .value(d => d.value);
+        const arcs = pie(data);
+        const radius = Math.min(width, height) / 2 * 0.8;
+        const arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
+        const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 1);
+        const g = svg.append('g')
+            .attr('transform', `translate(${width / 2}, ${height / 2})`);
+        g.selectAll('path')
+            .data(arcs)
+            .enter().append('path')
+            .attr('fill', d => colors.find( c => c.label === d.data.label).color)
+            .attr('stroke', 'white')
+            .attr('d', arc)
+            .append('title')
+            .text(d => `${d.data.label}: ${d.data.value}`);
+        const text = g.selectAll('text')
+            .data(arcs)
+            .enter()
+            .append('text')
+            .attr('transform', d => `translate(${arcLabel.centroid(d)})`)
+            .attr('dy', '0.35em');
+        text.append('tspan')
+            .attr('x', 0)
+            .attr('y', '-0.7em')
+            .attr('font-weight', 'bold')
+            .text(d => d.data.label);
+        text.filter(d => (d.endAngle - d.startAngle) > 0.25).append('tspan')
+            .attr('x', 0)
+            .attr('y', '0.7em')
+            .attr('fill-opacity', 0.7)
+            .text(d => d.data.value);
     }
 }
 
