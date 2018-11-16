@@ -4,11 +4,14 @@ class Explore {
         this._apiPrefix = `https://api.marcswilson.com/api/mlb/chadwick`;
         this._httpClient = new HttpClient();
         this._collectionsListEl = document.getElementById('collections');
+        this.datatable = document.querySelector('#datatable table');
+        this.btnDownload = document.getElementById('btnDownload');
         this.init();
     }
     async init() {
         const collections = await this._httpClient.get(`${this._apiPrefix}/collections`);
         this.generateCollectionList(collections);
+        this.btnDownload.onclick = this.download.bind(this);
     }
     generateCollectionList(collections) {
         if (collections) {
@@ -51,6 +54,10 @@ class Explore {
             tbody.appendChild(tr);
         }
         console.log(columns);
+    }
+    download() {
+        const tableToCsv = new HtmlTableToCsv(this.datatable);
+        tableToCsv.download();
     }
 
 }

@@ -13,3 +13,6 @@ header, #bodyHeader {
 #datatable table {
     width: 100%;
 }
+#datatable table tbody tr:nth-child(odd) {
+    background: lightgray;
+}
