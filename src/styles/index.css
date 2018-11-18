@@ -1,18 +1,35 @@
 html, body {
     height: 100%;
+    font-family: sans-serif;
+    margin: 0;
+}
+body header a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+}
+body header a.active {
+    border-bottom: 1px solid white;
 }
 body {
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
-#indexBody {
+#indexMain {
     width: 80%;
-    margin: auto;
+    margin: 0 auto;
+}
+body header {
+    background: #343a40; /* color from bootstrap */
+    color: white;
 }
 body header nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
     font-weight: 400;
+    width: 80%;
+    margin: auto;
 }
 body header nav #linksContainer {
     display: grid;
@@ -20,15 +37,28 @@ body header nav #linksContainer {
     align-items: center;
     justify-content: right;
 }
-body main #cardsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+body main #jumbo {
+    text-align: center;
+    padding: 60px 0;
 }
-body main #cardsContainer .card {
-    height: 200px;
-    width: 200px;
-    padding: 30px;
-    border: 1px solid lightgray;
-    margin: 15px;
+body main #jumbo h1 { font-weight: 400; }
+body main #jumbo p {
+    color: gray;
+    margin: auto;
+}
+body main #content {
+    display: grid;
+    grid-template-columns: repeat(2, 600px);
+    justify-content: center;
+    grid-gap: 90px;
+}
+body main #content section {
+    text-align: center;
+}
+body main #content section h3 {
+    font-weight: 600;
+}
+body main #content section div {
+    color: gray;
 }

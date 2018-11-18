@@ -5,12 +5,12 @@
     <title>Title</title>
     <link rel="stylesheet" href="styles/index.css"/>
 </head>
-<body id="indexBody">
+<body>
 <header>
     <nav>
         <h3>Home</h3>
         <div id="linksContainer">
-            <h5><a href="index.html">Home</a></h5>
+            <h5><a href="index.html" class="active">Home</a></h5>
             <div>|</div>
             <h5><a href="views/search.html">Search</a></h5>
             <div>|</div>
@@ -18,20 +18,57 @@
         </div>
     </nav>
 </header>
-<main>
-    <h1>Welcome to the MLB Stats Explorer!</h1>
-    <hr />
-    <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
-    <div id="cardsContainer">
-        <div class="card">
-            <h3>Search</h3>
-        </div>
-        <div class="card">
-            <h3>Explore</h3>
-        </div>
+<main id="indexMain">
+    <div id="jumbo">
+        <h1>MLB Stats Explorer</h1>
+        <p>
+            Explore stats from 1871 - Present
+        </p>
+    </div>
+    <div id="content">
+        <section>
+            <h3>Data Sources</h3>
+            <div>
+                <p>
+                    The MLB Stats Explorer was created using the same data that a lot of the major sports sites use. The data
+                    is an aggregation from <a href="https://www.retrosheet.org/" target="_blank">Retrosheet</a> and
+                    <a href="https://www.baseball-reference.com/" target="_blank">Baseball Reference</a>. The data being used in this
+                    application was obtained from the <a href="http://chadwick-bureau.com/" target="_blank">Chadwick Bureau's</a> GitHub
+                    Repository, the <a href="https://github.com/chadwickbureau/baseballdatabank" target="_blank">Baseball Data Bank</a>
+                </p>
+                <p>
+                    The data provided by Chadwick is in the format of csvs (which are quite large in size). For this site,
+                    I have modeled those csv files in a <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> database which is
+                    accessible through a REST API that I developed in <a href="https://nodejs.org" target="_blank">Node.js</a>.
+                    through my REST API written in Node.js
+                </p>
+            </div>
+
+        </section>
+        <section>
+            <h3>The Data</h3>
+            <div>
+                <p>
+                    With data covering the majority of baseballs history, there are a lot of statistics we can look into. Players,
+                    Managers, Teams, Ballparks, Post Season, Hitting, Pitching, Fielding, you name it, it's available. The goal
+                    of the MLB Stats Explorer is to enable user to dig into that data and find what they are looking for. With
+                    all of the data available to you, you can easily get what you're after.
+                </p>
+                <div id="dataOverview">
+                    <ul>
+                        <li id="attendance"></li>
+                        <li id="ballparks"></li>
+                        <li id="people"></li>
+                        <li id="teams"></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
     </div>
 </main>
-<footer></footer>
+<footer>
+    &copy; 2018 Marc Wilson
+</footer>
 <script src="scripts/utils/http-client.js"></script>
 <script src="scripts/index.js"></script>
 </body>

@@ -1,6 +1,6 @@
-header, #bodyHeader {
+main {
     width: 80%;
-    margin: auto;
+    margin: 0 auto;
 }
 #content {
     display: grid;
