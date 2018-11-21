@@ -82,7 +82,7 @@ class PlayerInfo {
             { label: 'Doubles', color: '#303F9F' },
             { label: 'Triples', color: '#1A237E' },
             { label: 'Homeruns', color: '#536DFE' },
-        ]
+        ];
         const svg = d3.select('#hittingBreakdownChart')
             .attr('height', height)
             .attr('width', width)
@@ -110,16 +110,31 @@ class PlayerInfo {
             .append('text')
             .attr('transform', d => `translate(${arcLabel.centroid(d)})`)
             .attr('dy', '0.35em');
-        text.append('tspan')
-            .attr('x', 0)
-            .attr('y', '-0.7em')
-            .attr('font-weight', 'bold')
-            .text(d => d.data.label);
+        // text.append('tspan')
+        //     .attr('x', 0)
+        //     .attr('y', '-0.7em')
+        //     .attr('font-weight', 'bold')
+        //     .text(d => d.data.label);
         text.filter(d => (d.endAngle - d.startAngle) > 0.25).append('tspan')
             .attr('x', 0)
             .attr('y', '0.7em')
             .attr('fill-opacity', 0.7)
             .text(d => d.data.value);
+        const legend = svg.selectAll('.legend')
+            .data(pie(data))
+            .enter()
+            .append('g')
+            .attr('transform', (d, i) => `translate(${(width - 110)}, ${(i * 15)})`)
+            .attr('class', 'legend');
+        legend.append('rect')
+            .attr('width', 10)
+            .attr('height', 10)
+            .attr('fill', d => colors.find( c => c.label === d.data.label).color);
+        legend.append('text')
+            .text( d => d.data.label)
+            .style('font-size', 10)
+            .attr('y', 10)
+            .attr('x', 50);
     }
     generateHomerunsChart(batting) {
         const margin = {top: 50, right: 50, bottom: 50, left: 50};

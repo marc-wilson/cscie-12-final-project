@@ -40,6 +40,7 @@ body header nav #linksContainer {
 
 body main #jumbo {
     text-align: center;
+    text-align: center;
     padding: 60px 0;
 }
 body main #jumbo h1 { font-weight: 400; }
@@ -56,9 +57,22 @@ body main #content {
 body main #content section {
     text-align: center;
 }
+body main #content section #dataOverview ul {
+    list-style-type: none;
+}
 body main #content section h3 {
     font-weight: 600;
 }
 body main #content section div {
     color: gray;
+}
+body main #content section div p {
+    line-height: 1.25;
+}
+body main #chartContainer {
+    text-align: center;
+}
+
+.axis .domain {
+    display: none;
 }
