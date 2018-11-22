@@ -36,6 +36,7 @@ class Search {
     setInitialSearchResults() {
         const json = localStorage.getItem('search_results');
         if (json) {
+            this.searchBox.blur();
             const resultsObj = JSON.parse(json);
             this.searchBox.value = resultsObj.term;
             this.generateResultsHtml(resultsObj.results);

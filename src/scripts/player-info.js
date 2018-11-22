@@ -50,7 +50,7 @@ class PlayerInfo {
         const player = new Player(response);
         if (player) {
             this.playerNameEl.innerText = player.fullName;
-            this.debutEl.innerText = player.debut.toDateString();
+            this.debutEl.innerText = player.debut.toLocaleDateString();
             this.batsEl.innerText = player.bats;
             this.throwsEl.innerText = player.throws;
             this.positionEl.innerText = player.fielding ? player.fielding[player.fielding.length - 1].POS : 'N/A';

@@ -62,7 +62,13 @@ class Index {
             .attr('y', d => yScale(d.value))
             .attr('width', xScale1.bandwidth())
             .attr('height', d => height - yScale(d.value))
-            .attr('fill', d => zScale(d.key));
+            .attr('fill', d => zScale(d.key))
+            .attr('height', 0)
+            .transition()
+            .duration(200)
+            .delay( (d, i) => i * 500)
+            .attr('y', d => yScale(d.value))
+            .attr('height', d => height - yScale(d.value));
         g.append('g')
             .attr('class', 'axis')
             .attr('transform', `translate(0, ${height})`)
