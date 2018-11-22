@@ -9,6 +9,7 @@ class Index {
         this.init();
     }
     async init() {
+        const loader = new Loader('Fetching data...');
         const counts = await this.getCounts();
         const franchises = await this.getOldestFranchises();
         console.log(franchises);
@@ -17,7 +18,7 @@ class Index {
         this.ballparksEl.innerText = `Ballparks: ${counts.ballparks}`;
         this.peopleEl.innerText = `People (Players, Coaches): ${counts.people}`;
         this.teamsEl.innerText = `Teams: ${counts.teams}`;
-        console.log(counts);
+        loader.destroy();
     }
     async getCounts() {
         return await this._httpClient.get('https://api.marcswilson.com/api/mlb/chadwick/counts');

@@ -4,14 +4,18 @@ class Explore {
         this._apiPrefix = `https://api.marcswilson.com/api/mlb/chadwick`;
         this._httpClient = new HttpClient();
         this._collectionsListEl = document.getElementById('collections');
+        this.nodataEl = document.getElementById('nodata');
+        this.dataAreaEl = document.getElementById('dataArea');
         this.datatable = document.querySelector('#datatable table');
         this.btnDownload = document.getElementById('btnDownload');
         this.init();
     }
     async init() {
+        const loader = new Loader('Fetching MongoDB Collections...');
         const collections = await this._httpClient.get(`${this._apiPrefix}/collections`);
         this.generateCollectionList(collections);
         this.btnDownload.onclick = this.download.bind(this);
+        loader.destroy();
     }
     generateCollectionList(collections) {
         if (collections) {
@@ -25,10 +29,14 @@ class Explore {
     }
     async collectionChanged(evt) {
         const collectionName = evt.currentTarget.innerText;
+        const loader = new Loader(`Fetching data for ${collectionName}...`);
         if (collectionName) {
             const data = await this._httpClient.get(`${this._apiPrefix}/collections/${collectionName}`);
+            this.nodataEl.style.display = 'none';
+            this.dataAreaEl.style.display = 'block';
             this.generateDataTable(data);
         }
+        loader.destroy();
     }
     generateDataTable(data) {
         const thead = document.querySelector('#datatable thead');
@@ -46,9 +54,19 @@ class Explore {
         for (const row of data) {
             const tr = document.createElement('tr');
             const features = Object.values(row);
+            const hasPlayerId = Object.keys(row).includes('playerID');
+            let playerId = null;
+            if (hasPlayerId) {
+                playerId = row.playerID;
+            }
             for (const value of features) {
                 const td = document.createElement('td');
-                td.innerText = value;
+                if (playerId && playerId === value) {
+                    td.innerHTML = `<a href="../views/player-info.html?playerID=${value}">${value}</a>`;
+                } else {
+                    td.innerText = value;
+                }
+
                 tr.appendChild(td);
             }
             tbody.appendChild(tr);

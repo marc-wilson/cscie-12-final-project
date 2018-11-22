@@ -44,12 +44,14 @@ class Search {
     async searchPlayers(evt) {
         const term = evt.currentTarget.value;
         if (evt.key === 'Enter' && term && term.length > 3) {
+            const loader = new Loader(`Searching for ${term}...`);
             const response = await this._httpClient.get(`${this._apiPrefix}/players/search/${term}`);
             if (response) {
                 const results = response.map( r => new SearchResult(r) );
                 localStorage.setItem('search_results', JSON.stringify({ term: term, results: results }));
                 this.generateResultsHtml(results);
             }
+            loader.destroy();
         }
     }
 

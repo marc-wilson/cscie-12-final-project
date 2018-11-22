@@ -25,24 +25,30 @@
         <hr/>
         <p>The MLB Stats Explorer is an application that enables users to view real MLB Stats from 1871 to present</p>
     </div>
-    <div id="content">
+    <div id="contentContainer">
         <nav>
             <ul id="collections"></ul>
         </nav>
         <div id="contentBody">
-            <div id="tableActions">
-                <button id="btnDownload">Download</button>
+            <div id="nodata">
+                <em>Select a Collection to get started...</em>
             </div>
-            <div id="datatable">
-                <table>
-                    <thead></thead>
-                    <tbody></tbody>
-                </table>
+            <div id="dataArea">
+                <div id="tableActions">
+                    <button id="btnDownload">Download</button>
+                </div>
+                <div id="datatable">
+                    <table>
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </main>
 <footer></footer>
+<script src="../scripts/utils/loader.js"></script>
 <script src="../scripts/utils/http-client.js"></script>
 <script src="../scripts/utils/table-to-csv.js"></script>
 <script src="../scripts/explore.js"></script>

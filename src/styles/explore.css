@@ -2,16 +2,44 @@ main {
     width: 80%;
     margin: 0 auto;
 }
-#content {
+#contentContainer {
     display: grid;
     grid-template-columns: auto 1fr;
 }
+#contentContainer nav {
 
-#collections {
+}
+#contentContainer nav ul {
+    margin: 0;
+    padding: 0;
+}
+#contentContainer nav #collections {
     list-style-type: none;
+}
+#contentContainer nav #collections li {
+    padding: 5px 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 100ms;
+}
+#contentContainer nav #collections li:hover {
+    opacity: 1;
+}
+#contentContainer #contentBody #dataArea {
+    display: none;
+}
+#contentContainer #contentBody #nodata {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
 #datatable table {
     width: 100%;
+    border-collapse: collapse;
+}
+#datatable table tr td {
+    padding: 5px 0;
 }
 #datatable table tbody tr:nth-child(odd) {
     background: lightgray;
